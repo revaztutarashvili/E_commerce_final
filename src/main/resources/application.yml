@@ -30,4 +30,3 @@ logging:
 
 server:
   port: 8080
-
