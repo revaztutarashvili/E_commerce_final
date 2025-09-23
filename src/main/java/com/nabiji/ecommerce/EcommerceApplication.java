@@ -1,13 +1,13 @@
-package com.example.E_commerce;
+package com.nabiji.ecommerce;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Ecommerce8Application {
+public class EcommerceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Ecommerce8Application.class, args);
+		SpringApplication.run(EcommerceApplication.class, args);
 	}
 
 }

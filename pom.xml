@@ -8,10 +8,10 @@
 		<version>3.5.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>E_commerce</artifactId>
+	<groupId>com.nabiji</groupId>
+	<artifactId>ecommerce</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Ecommerce8</name>
+	<name>EcommerceApplication</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
+			<scope>test</scope>		
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
