@@ -46,10 +46,10 @@ public class DataInitializer implements CommandLineRunner {
     private void createBranches() {
         logger.info("Creating branches...");
         List.of(
-                createBranch("Saburtalo", "Saburtalo Address"),
-                createBranch("Varketili", "Varketili Address"),
-                createBranch("Gldani", "Gldani Address"),
-                createBranch("Isani", "Isani Address")
+                createBranch("Saburtalo", "Tbilisi, S.tsintsadze st #26"),
+                createBranch("Varketili", "Tbilisi, Javakheti st. #193"),
+                createBranch("Gldani", "Tbilisi, shaurmebi st. #31"),
+                createBranch("Isani", "Tbilisi, ketevan tsamebuli Avenue #201")
         ).forEach(branchRepository::save);
         logger.info("Branches created successfully.");
     }
@@ -57,12 +57,12 @@ public class DataInitializer implements CommandLineRunner {
     private void createProducts() {
         logger.info("Creating products...");
         List.of(
-                createProduct("Apple", "Fresh red apples"),
-                createProduct("Peach", "Juicy peaches"),
-                createProduct("Orange", "Sweet oranges"),
-                createProduct("Wild Berry", "A mix of wild berries"),
-                createProduct("Pineapple", "Tropical pineapple"),
-                createProduct("Tomato", "Ripe red tomatoes")
+                createProduct("Apple", "Fresh red apples (200 Kilocalories)"),
+                createProduct("Peach", "Juicy peaches (212 Kilocalories)"),
+                createProduct("Orange", "Sweet oranges (90 Kilocalories)"),
+                createProduct("Wild Berry", "A mix of wild berries (139 Kilocalories)"),
+                createProduct("Pineapple", "Tropical pineapple (421 Kilocalories)"),
+                createProduct("Tomato", "Ripe red tomatoes (89 Kilocalories)")
         ).forEach(productRepository::save);
         logger.info("Products created successfully.");
     }
