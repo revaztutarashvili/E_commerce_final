@@ -84,9 +84,10 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     @Transactional
-    public InventoryResponse updateInventory(Long inventoryId, UpdateInventoryRequest request) {
-        Inventory inventory = inventoryRepository.findById(inventoryId)
-                .orElseThrow(() -> new ResourceNotFoundException("Inventory record not found"));
+    public InventoryResponse updateInventory(Long branchId, Long productId, UpdateInventoryRequest request) {
+        Inventory inventory = inventoryRepository.findByBranchIdAndProductId(branchId, productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Inventory record not found for given branch and product"));
+
         inventory.setQuantity(request.getQuantity());
         Inventory savedInventory = inventoryRepository.save(inventory);
         return inventoryMapper.toInventoryResponse(savedInventory);
@@ -94,10 +95,10 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     @Transactional
-    public void removeInventory(Long inventoryId) {
-        if (!inventoryRepository.existsById(inventoryId)) {
-            throw new ResourceNotFoundException("Inventory record not found");
-        }
-        inventoryRepository.deleteById(inventoryId);
+    public void removeInventory(Long branchId, Long productId) {
+        Inventory inventory = inventoryRepository.findByBranchIdAndProductId(branchId, productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Inventory record not found for given branch and product"));
+
+        inventoryRepository.delete(inventory);
     }
 }

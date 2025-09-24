@@ -26,6 +26,6 @@ public interface InventoryService {
     void decreaseStock(List<OrderItem> orderItems, Long branchId);
 
     InventoryResponse addInventory(AddInventoryRequest request);
-    InventoryResponse updateInventory(Long inventoryId, UpdateInventoryRequest request);
-    void removeInventory(Long inventoryId);
+    InventoryResponse updateInventory(Long branchId, Long productId, UpdateInventoryRequest request);
+    void removeInventory(Long branchId, Long productId);
 }

@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+
 
 @RestControllerAdvice
 @Hidden
@@ -52,4 +55,15 @@ public class GlobalExceptionHandler {
         ExceptionBody body = new ExceptionBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error", "An unexpected error occurred. Please contact support.");
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @ExceptionHandler({BadCredentialsException.class, DisabledException.class})
+    public ResponseEntity<ExceptionBody> handleAuthenticationException(RuntimeException ex) {
+        String message = "Invalid username or password.";
+        if (ex instanceof DisabledException) {
+            message = "User account is deactivated.";
+        }
+
+        ExceptionBody body = new ExceptionBody(HttpStatus.UNAUTHORIZED.value(), "Unauthorized", message);
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.nabiji.ecommerce.controller.admin;
 import com.nabiji.ecommerce.dto.response.DailySalesReportResponse;
 import com.nabiji.ecommerce.dto.response.SalesSummaryResponse;
 import com.nabiji.ecommerce.service.ReportService;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,9 @@ public class AdminReportController {
 
     @GetMapping("/daily")
     public ResponseEntity<DailySalesReportResponse> getDailyReport(
+            @Parameter(
+                    description = "YYYY-MM-DD"
+            )
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam Long branchId) {
         return ResponseEntity.ok(reportService.getDailySalesReport(date, branchId));

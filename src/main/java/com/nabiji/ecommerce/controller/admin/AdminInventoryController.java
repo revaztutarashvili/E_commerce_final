@@ -26,15 +26,20 @@ public class AdminInventoryController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<InventoryResponse> updateInventory(@PathVariable Long id, @Valid @RequestBody UpdateInventoryRequest request) {
-        InventoryResponse response = inventoryService.updateInventory(id, request);
+    @PutMapping("/branches/{branchId}/products/{productId}")
+    public ResponseEntity<InventoryResponse> updateInventory(
+            @PathVariable Long branchId,
+            @PathVariable Long productId,
+            @Valid @RequestBody UpdateInventoryRequest request) {
+        InventoryResponse response = inventoryService.updateInventory(branchId, productId, request);
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> removeInventory(@PathVariable Long id) {
-        inventoryService.removeInventory(id);
+    @DeleteMapping("/branches/{branchId}/products/{productId}")
+    public ResponseEntity<Void> removeInventory(
+            @PathVariable Long branchId,
+            @PathVariable Long productId) {
+        inventoryService.removeInventory(branchId, productId);
         return ResponseEntity.noContent().build();
     }
 }
