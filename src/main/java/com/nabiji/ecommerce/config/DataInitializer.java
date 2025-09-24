@@ -6,6 +6,10 @@ import com.nabiji.ecommerce.entity.Product;
 import com.nabiji.ecommerce.repository.BranchRepository;
 import com.nabiji.ecommerce.repository.InventoryRepository;
 import com.nabiji.ecommerce.repository.ProductRepository;
+import com.nabiji.ecommerce.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import com.nabiji.ecommerce.entity.User;
+import com.nabiji.ecommerce.enums.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -23,23 +27,44 @@ public class DataInitializer implements CommandLineRunner {
     private final BranchRepository branchRepository;
     private final ProductRepository productRepository;
     private final InventoryRepository inventoryRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public DataInitializer(BranchRepository branchRepository, ProductRepository productRepository, InventoryRepository inventoryRepository) {
+    public DataInitializer(BranchRepository branchRepository,
+                           ProductRepository productRepository,
+                           InventoryRepository inventoryRepository,
+                           UserRepository userRepository,
+                           PasswordEncoder passwordEncoder) {
         this.branchRepository = branchRepository;
         this.productRepository = productRepository;
         this.inventoryRepository = inventoryRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void run(String... args) throws Exception {
         if (branchRepository.count() == 0) {
             logger.info("Database is empty. Initializing data...");
+            createAdminUserIfNotFound();
             createBranches();
             createProducts();
             createInventory();
             logger.info("Data initialization complete.");
         } else {
             logger.info("Database already contains data. Skipping initialization.");
+        }
+    }
+
+    private void createAdminUserIfNotFound() {
+        if (!userRepository.existsByUsername("admin")) {
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("admin")); // პაროლი: admin123
+            admin.setRole(Role.ADMIN);
+            admin.setActive(true);
+            userRepository.save(admin);
+            logger.info("Default administrator account created: admin / admin");
         }
     }
 
