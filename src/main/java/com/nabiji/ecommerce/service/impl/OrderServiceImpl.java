@@ -1,5 +1,6 @@
 package com.nabiji.ecommerce.service.impl;
 
+import com.nabiji.ecommerce.aspect.LogExecutionTime;
 import com.nabiji.ecommerce.dto.response.OrderHistoryResponse;
 import com.nabiji.ecommerce.dto.response.OrderResponse;
 import com.nabiji.ecommerce.entity.*;
@@ -39,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
+    @LogExecutionTime
     public synchronized OrderResponse checkout(UserPrincipal currentUser) {
         User user = userRepository.findById(currentUser.getId()).orElseThrow(() -> new RuntimeException("User not found."));
         List<ShoppingCart> cartItems = cartRepository.findByUserId(user.getId());

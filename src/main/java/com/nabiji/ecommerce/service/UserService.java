@@ -1,8 +1,11 @@
 package com.nabiji.ecommerce.service;
 
 import com.nabiji.ecommerce.dto.response.BalanceResponse;
+import com.nabiji.ecommerce.dto.response.OrderHistoryResponse;
 import com.nabiji.ecommerce.dto.response.UserProfileResponse;
 import com.nabiji.ecommerce.security.UserPrincipal;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -19,4 +22,9 @@ public interface UserService {
      * @return A DTO containing the user's current balance.
      */
     BalanceResponse getCurrentBalance(UserPrincipal currentUser);
+
+    List<UserProfileResponse> getAllUsers();
+    List<OrderHistoryResponse> getUserOrderHistory(Long userId);
+    UserProfileResponse deactivateUser(Long userId);
+    UserProfileResponse activateUser(Long userId);
 }
