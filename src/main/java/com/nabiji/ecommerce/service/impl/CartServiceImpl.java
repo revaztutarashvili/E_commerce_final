@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import com.nabiji.ecommerce.exception.InsufficientStockException;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -45,7 +45,7 @@ public class CartServiceImpl implements CartService {
         Inventory inventory = inventoryService.findInventoryByBranchAndProduct(request.getBranchId(), request.getProductId());
 
         if (inventory.getQuantity() < request.getQuantity()) {
-            throw new RuntimeException("Insufficient stock");
+            throw new InsufficientStockException("Insufficient stock for product: " + inventory.getProduct().getName() + ". Requested: " + request.getQuantity() + ", Available: " + inventory.getQuantity());
         }
 
         List<ShoppingCart> userCart = cartRepository.findByUserId(user.getId());
@@ -111,7 +111,7 @@ public class CartServiceImpl implements CartService {
         }
         Inventory inventory = inventoryService.findInventoryByBranchAndProduct(cartItem.getBranch().getId(), cartItem.getProduct().getId());
         if(inventory.getQuantity() < request.getQuantity()) {
-            throw new RuntimeException("Insufficient stock.");
+            throw new InsufficientStockException("Insufficient stock for product: " + inventory.getProduct().getName() + ". Requested: " + request.getQuantity() + ", Available: " + inventory.getQuantity());
         }
         cartItem.setQuantity(request.getQuantity());
         ShoppingCart savedItem = cartRepository.save(cartItem);
