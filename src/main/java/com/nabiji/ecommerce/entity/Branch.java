@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Branch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
+    @Getter @Setter
     private Long id;
 
     @Column(nullable = false, unique = true)

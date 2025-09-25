@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -88,5 +90,30 @@ public class ReportServiceImpl implements ReportService {
             logger.info("Report generated for branch: {}, Date: {}, Total Sales: {}", branch.getName(), date, totalSales);
         }
         logger.info("Finished daily sales report generation for date: {}", date);
+    }
+    @Override
+    @Async
+    @Transactional
+    public void generateSingleBranchReport(Branch branch, LocalDate date) {
+        logger.info("Generating report for branch: '{}' on a separate thread.", branch.getName());
+        List<Order> orders = orderRepository.findAllByBranchIdAndStatusAndCreatedAtBetween(
+                branch.getId(),
+                OrderStatus.COMPLETED,
+                date.atStartOfDay(),
+                date.atTime(LocalTime.MAX)
+        );
+
+        BigDecimal totalSales = orders.stream()
+                .map(Order::getTotalAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        DailySalesReport report = new DailySalesReport();
+        report.setBranch(branch);
+        report.setDate(date);
+        report.setTotalOrders(orders.size());
+        report.setTotalSales(totalSales);
+
+        dailySalesReportRepository.save(report);
+        logger.info("Successfully generated report for branch: '{}', Total Sales: {}", branch.getName(), totalSales);
     }
 }
