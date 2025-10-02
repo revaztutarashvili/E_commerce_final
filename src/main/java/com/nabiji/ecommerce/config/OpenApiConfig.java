@@ -16,7 +16,7 @@ public class OpenApiConfig {
         final String securitySchemeName = "bearerAuth";
 
         return new OpenAPI()
-                // კომპონენტების სექციაში ვამატებთ უსაფრთხოების სქემას
+                // კომპონენტების სექციაში დავამატე უსაფრთხოების სქემა და ღილაკიც გამომჩნდება ტოკენის ჩასაწერად
                 .components(
                         new Components()
                                 .addSecuritySchemes(securitySchemeName,
@@ -27,7 +27,8 @@ public class OpenApiConfig {
                                                 .bearerFormat("JWT") // ტოკენის ფორმატი: JWT
                                 )
                 )
-                // ვამატებთ გლობალურ მოთხოვნას, რომ ყველა ენდფოინთმა გამოიყენოს ეს სქემა
+                // დავამატე გლობალური მოთხოვნა, რომ ყველა ენდფოინთმა გამოიყენოს ეს სქემა, სათითაოდ როომ არ დამჭირდეს
+                //ყველა ენდფოინთზე ჩავწერო ტოკეენი
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 // API-ს ზოგადი ინფორმაცია
                 .info(new Info().title("4Nabiji E-commerce API").version("v1.0"));

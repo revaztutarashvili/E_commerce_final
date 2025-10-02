@@ -18,17 +18,6 @@ public class DailySalesReportScheduler {
         this.reportService = reportService;
     }
 
-    /**
-     * This scheduler runs every day at midnight (00:00:00).
-     * It generates a sales report for the previous day for all branches.
-     * The cron expression "0 0 0 * * ?" means:
-     * - 0 seconds
-     * - 0 minutes
-     * - 0 hour (midnight)
-     * - * (every day of the month)
-     * - * (every month)
-     * - ? (any day of the week)
-     */
     @Scheduled(cron = "0 0 0 * * ?")
     public void scheduleReportGeneration() {
         LocalDate yesterday = LocalDate.now().minusDays(1);

@@ -58,8 +58,6 @@ public class ReportServiceImpl implements ReportService {
         SalesSummaryResponse summary = new SalesSummaryResponse();
         summary.setTotalRevenueAllBranches(totalRevenue);
         summary.setTotalOrdersAllBranches(allOrders.size());
-        // summary.setReportStartDate(...) // could be added
-        // summary.setReportEndDate(...) // could be added
         return summary;
     }
 
